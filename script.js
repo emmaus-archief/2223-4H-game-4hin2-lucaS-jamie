@@ -19,8 +19,8 @@ const SPELEN = 1;
 const GAMEOVER = 2;
 var spelStatus = SPELEN;
 
-var spelerX = 600; // x-positie van speler
-var spelerY = 600; // y-positie van speler
+var spelerX = 100; // x-positie van speler
+var spelerY = 640; // y-positie van speler
 
 /* ********************************************* */
 /* functies die je gebruikt in je game           */
@@ -67,7 +67,7 @@ var verwerkBotsing = function() {
  */
 var tekenAlles = function() {
   // achtergrond
-  fill ("blue");
+  fill (41, 10, 74);
   rect (0, 0, 1280, 720)
   
   // vijand
