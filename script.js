@@ -43,6 +43,19 @@ var beweegAlles = function() {
   if (keyIsDown(83)) {
     spelerY = spelerY +5;
   }
+
+  if (spelerX < 25) {
+    spelerX = 25;
+  }
+  if (spelerX > 1255) {
+    spelerX = 1255;
+  }
+  if (spelerY < 25) {
+    spelerY = 25;
+  }
+  if (spelerY > 695) {
+    spelerY = 695;
+  }
   // vijand
 
   // kogel
@@ -67,7 +80,7 @@ var verwerkBotsing = function() {
  */
 var tekenAlles = function() {
   // achtergrond
-  fill (41, 10, 74);
+  fill (47, 194, 194);
   rect (0, 0, 1280, 720)
   
   // vijand
