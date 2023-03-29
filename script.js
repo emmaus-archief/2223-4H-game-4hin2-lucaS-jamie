@@ -57,7 +57,8 @@ var beweegAlles = function() {
     spelerY = 695;
   }
   // vijand
-
+fill("red");
+  rect(vijandX -25)
   // kogel
 };
 
@@ -142,3 +143,4 @@ function draw() {
 
   }
 }
+
