@@ -18,3 +18,14 @@ https://emmauscollege.github.io/informatica/game/
 - icon <br>
         http://www.iconarchive.com/show/android-lollipop-icons-by-dtafalonso/Play-Games-icon.html
 - ...
+
+
+
+## stappen plan
+[x] speler tekenen
+[x] speler bewegen
+[] speler als plaatje maken
+[]vijand tekenen
+[]botsing detecteren
+[]af gaan
+[]punten bijhouden
