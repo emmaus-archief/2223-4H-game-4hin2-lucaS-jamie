@@ -19,9 +19,24 @@ const SPELEN = 1;
 const GAMEOVER = 2;
 var spelStatus = SPELEN;
 
+// mogelijkheden voor de richting van vijandjes en speler
+const LEFT = 0;
+const RIGHT = 1;
+
 var spelerX = 100; // x-positie van speler
 var spelerY = 640; // y-positie van speler
+var spelerSpeed = 5; // snelheid van speler
+var spelerWalking = false; // houdt bij of de speler aan het lopen is
+var spelerDirection = RIGHT; // richting van de speler
 
+
+var vijandX = 600;
+var vijandY = 250;
+
+var img;
+var img2;
+var img3;
+var img4;
 /* ********************************************* */
 /* functies die je gebruikt in je game           */
 /* ********************************************* */
@@ -32,16 +47,22 @@ var spelerY = 640; // y-positie van speler
 var beweegAlles = function() {
   // speler
   if (keyIsDown(65)) {
-    spelerX = spelerX -5;
+    spelerX = spelerX - spelerSpeed;
+    spelerWalking = true;
+    spelerDirection = RIGHT
   }
   if (keyIsDown(68)) {
-    spelerX = spelerX +5;
+    spelerX = spelerX + spelerSpeed;
+    spelerWalking = true;
+    spelerDirection = LEFT
   }
   if (keyIsDown(87)) {
-    spelerY = spelerY -5;
+    spelerY = spelerY - spelerSpeed;
+    spelerWalking = true;
   }
   if (keyIsDown(83)) {
-    spelerY = spelerY +5;
+    spelerY = spelerY + spelerSpeed;
+    spelerWalking = true;
   }
 
   if (spelerX < 25) {
@@ -50,15 +71,14 @@ var beweegAlles = function() {
   if (spelerX > 1255) {
     spelerX = 1255;
   }
-  if (spelerY < 25) {
-    spelerY = 25;
+  if (spelerY < 250) {
+    spelerY = 250;
   }
   if (spelerY > 695) {
     spelerY = 695;
   }
   // vijand
-fill("red");
-  rect(vijandX -25)
+ 
   // kogel
 };
 
@@ -69,7 +89,12 @@ fill("red");
  */
 var verwerkBotsing = function() {
   // botsing speler tegen vijand
-
+if (spelerX - vijandX < 120 &&
+      spelerX - vijandX >0 &&
+      spelerY - vijandY < 340 &&
+      spelerY - vijandY > 0) {
+      console.log("aaauuu!!!!!!!!!");
+  }
   // botsing kogel tegen vijand
 
   // update punten en health
@@ -81,19 +106,29 @@ var verwerkBotsing = function() {
  */
 var tekenAlles = function() {
   // achtergrond
-  fill (47, 194, 194);
-  rect (0, 0, 1280, 720)
+  image (img4, 0, 0, 1280, 720);
   
   // vijand
-
+  
+image (img2, vijandX, vijandY, 130, 200)
+  
   // kogel
 
   // speler
-  fill("white");
-  rect(spelerX - 25, spelerY - 25, 50, 50);
-  fill("black");
-  ellipse(spelerX, spelerY, 10, 10);
-
+  
+  if(spelerDirection === RIGHT && spelerWalking === true){
+    image (img3, spelerX - 120, spelerY - 200)
+  }  
+  if(spelerDirection === LEFT && spelerWalking === true){
+    image (img, spelerX - 120, spelerY - 200)
+  }
+  if(spelerDirection === RIGHT && spelerWalking === false){
+    image (img3, spelerX - 120, spelerY - 200)
+  }  
+  if(spelerDirection === LEFT && spelerWalking === false){
+    image (img, spelerX - 120, spelerY - 200)
+  }
+  
   // punten en health
 
 };
@@ -124,6 +159,13 @@ function setup() {
   background('blue');
 }
 
+
+function preload() {
+  img = loadImage ('images/speler.gif')
+  img2 = loadImage ('images/walker2.gif')
+  img3 = loadImage ('images/speler1reversed.gif')
+  img4 = loadImage ('images/achtergrond.jpg')
+}
 /**
  * draw
  * de code in deze functie wordt 50 keer per seconde
