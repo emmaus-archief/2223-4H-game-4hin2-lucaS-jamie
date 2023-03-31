@@ -45,6 +45,8 @@ var img4;
 var img5;
 var img6;
 var img7;
+var img8;
+var img9;
 /* ********************************************* */
 /* functies die je gebruikt in je game           */
 /* ********************************************* */
@@ -180,6 +182,9 @@ function preload() {
   img5 = loadImage ('images/speler-game-over.gif')
   img6 = loadImage ('images/gameoversign.gif')
   img7 = loadImage ('images/speler-game-over-reversed.gif')
+  img8 = loadImage ('images/insert-coin.png')
+  img9 = loadImage ('images/insert-coin-big.png')
+  
 }
 /**
  * draw
@@ -203,8 +208,9 @@ function draw() {
     image (img5, 20, 40);
     image (img7, 1000, 40);
     image (img6, 300, 100, 675, 230)
-  
-  }
+    }
+
+    
   if (spelStatus === UITLEG) {
     //teken uitleg scherm
     console.log("uitleg");
