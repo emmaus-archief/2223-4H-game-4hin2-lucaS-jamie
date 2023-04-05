@@ -81,8 +81,8 @@ var beweegAlles = function() {
   if (spelerX > 1255) {
     spelerX = 1255;
   }
-  if (spelerY < 250) {
-    spelerY = 250;
+  if (spelerY < 340) {
+    spelerY = 340;
   }
   if (spelerY > 695) {
     spelerY = 695;
