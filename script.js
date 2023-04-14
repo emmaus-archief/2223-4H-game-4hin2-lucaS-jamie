@@ -27,7 +27,7 @@ const LEFT = 0;
 const RIGHT = 1;
 
 var spelerX = 100; // x-positie van speler
-var spelerY = 640;// y-positie van speler
+var spelerY = 300;// y-positie van speler
 var spelerGrootteX = 460;
 var spelerGrootteY = 460;
 var spelerSpeed = 5; // snelheid van speler
@@ -40,11 +40,11 @@ var vijandY = 250;
 
 var speler;
 var speler_reversed;
+var speler_walk;
+var speler_walk_reversed;
 var img2;
 var img4;
 var img6;
-var img8;
-var img9;
 /* ********************************************* */
 /* functies die je gebruikt in je game           */
 /* ********************************************* */
@@ -54,6 +54,8 @@ var img9;
  */
 var beweegAlles = function() {
   // speler
+  spelerWalking = false //walk is standaard false
+  
   if (keyIsDown(65)) {
     spelerX = spelerX - spelerSpeed;
     spelerWalking = true;
@@ -79,8 +81,8 @@ var beweegAlles = function() {
   if (spelerX > 1255) {
     spelerX = 1255;
   }
-  if (spelerY < 340) {
-    spelerY = 340;
+  if (spelerY < 110) {
+    spelerY = 110;
   }
   if (spelerY > 695) {
     spelerY = 695;
@@ -118,20 +120,31 @@ var tekenAlles = function() {
   // kogel
 
   // speler
-  noSmooth()
-  if (spelerDirection === RIGHT && spelerWalking === true) {
-    image(speler_reversed, spelerX - 120, spelerY - 200, spelerGrootteX, spelerGrootteY)
-  }
-  if (spelerDirection === LEFT && spelerWalking === true) {
-    image(speler, spelerX - 120, spelerY - 200, spelerGrootteX, spelerGrootteY)
-  }
+  var imageToUse = speler;
+  
   if (spelerDirection === RIGHT && spelerWalking === false) {
-    image(speler_reversed, spelerX - 120, spelerY - 200, spelerGrootteX, spelerGrootteY)
+    imageToUse = speler;
   }
   if (spelerDirection === LEFT && spelerWalking === false) {
-    image(speler, spelerX - 120, spelerY - 200, spelerGrootteX, spelerGrootteY)
+    imageToUse = speler_reversed;
   }
+  if (spelerDirection === RIGHT && spelerWalking === true) {
+    imageToUse = speler_walk;
+  }
+  if (spelerDirection === LEFT && spelerWalking === true) {
+    imageToUse = speler_walk_reversed;
+  }
+  
+
+  noSmooth()
+  image(imageToUse, spelerX, spelerY, spelerGrootteX, spelerGrootteY)
   smooth()
+
+  // coördinaat afdrukken
+  stroke('white')
+  fill ('white')
+  text("("+spelerX + ", "+ spelerY +")", spelerX, spelerY)
+  noStroke()
   // punten en health
 
 };
@@ -175,11 +188,11 @@ function setup() {
 function preload() {
   speler = loadImage('images/speler.gif')
   speler_reversed = loadImage('images/speler-reversed.gif')
+  speler_walk = loadImage('images/speler-walk.gif')
+  speler_walk_reversed = loadImage('images/speler-walk-reversed.gif')
   img2 = loadImage('images/walker2.gif')
   img4 = loadImage('images/achtergrond.jpg')
   img6 = loadImage('images/gameoversign.gif')
-  img8 = loadImage('images/insert-coin.png')
-  img9 = loadImage('images/insert-coin-big.png')
 
 }
 /**
@@ -201,8 +214,6 @@ function draw() {
     console.log("game over");
     fill('black')
     rect(0, 0, 1280, 720);
-    image(img5, 20, 40);
-    image(img7, 1000, 40);
     image(img6, 300, 100, 675, 230)
   }
 
