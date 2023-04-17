@@ -28,9 +28,9 @@ const RIGHT = 1;
 
 var spelerX = 100; // x-positie van speler
 var spelerY = 300;// y-positie van speler
-var spelerGrootteX = 460;
-var spelerGrootteY = 460;
-var spelerSpeed = 5; // snelheid van speler
+var spelerGrootteX = 240;
+var spelerGrootteY = 240;
+var spelerSpeed = 4; // snelheid van speler
 var spelerWalking = false; // houdt bij of de speler aan het lopen is
 var spelerDirection = RIGHT; // richting van de speler
 
@@ -75,17 +75,17 @@ var beweegAlles = function() {
     spelerWalking = true;
   }
 
-  if (spelerX < 25) {
-    spelerX = 25;
+  if (spelerX < -70) {
+    spelerX = -70;
   }
   if (spelerX > 1255) {
     spelerX = 1255;
   }
-  if (spelerY < 110) {
-    spelerY = 110;
+  if (spelerY < 140) {
+    spelerY = 140;
   }
-  if (spelerY > 695) {
-    spelerY = 695;
+  if (spelerY > 470) {
+    spelerY = 470;
   }
   // vijand
 
@@ -155,9 +155,9 @@ var tekenAlles = function() {
  */
 var checkGameOver = function() {
 
-  if (spelerX - vijandX < 120 &&
+  if (spelerX - vijandX < 500 &&
     spelerX - vijandX > 0 &&
-    spelerY - vijandY < 340 &&
+    spelerY - vijandY < 240 &&
     spelerY - vijandY > 0) {
     aantal = aantal + 1;
     console.log("aaauuu!!!!!!!!!");
