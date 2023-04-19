@@ -34,9 +34,10 @@ var spelerSpeed = 4; // snelheid van speler
 var spelerWalking = false; // houdt bij of de speler aan het lopen is
 var spelerDirection = RIGHT; // richting van de speler
 
-
 var vijandX = 600;
-var vijandY = 250;
+var vijandY = 450;
+var vijandGrootteX = 150;
+var vijandGrootteY = 230;
 
 var speler;
 var speler_reversed;
@@ -75,17 +76,17 @@ var beweegAlles = function() {
     spelerWalking = true;
   }
 
-  if (spelerX < -70) {
-    spelerX = -70;
+  if (spelerX < 55) {
+    spelerX = 55;
   }
-  if (spelerX > 1255) {
-    spelerX = 1255;
+  if (spelerX > 1240) {
+    spelerX = 1240;
   }
-  if (spelerY < 140) {
-    spelerY = 140;
+  if (spelerY < 260) {
+    spelerY = 260;
   }
-  if (spelerY > 470) {
-    spelerY = 470;
+  if (spelerY > 590) {
+    spelerY = 590;
   }
   // vijand
 
@@ -114,9 +115,9 @@ var tekenAlles = function() {
   image(img4, 0, 0, 1280, 720);
 
   // vijand
-
-  image(img2, vijandX, vijandY, 130, 200)
-
+noSmooth()
+  image (img2, vijandX - 0.5 * vijandGrootteX, vijandY - 0.5 * vijandGrootteY, vijandGrootteX, vijandGrootteY)
+smooth()
   // kogel
 
   // speler
@@ -137,13 +138,24 @@ var tekenAlles = function() {
   
 
   noSmooth()
-  image(imageToUse, spelerX, spelerY, spelerGrootteX, spelerGrootteY)
+  image(imageToUse, spelerX - 0.5 * spelerGrootteX, spelerY - 0.5 * spelerGrootteY, spelerGrootteX, spelerGrootteY)
   smooth()
 
   // coördinaat afdrukken
   stroke('white')
   fill ('white')
   text("("+spelerX + ", "+ spelerY +")", spelerX, spelerY)
+  noStroke()
+
+  stroke('white')
+  fill ('white')
+  text("("+vijandX + ", "+ vijandY +")", vijandX, vijandY)
+  noStroke()
+
+  stroke('white')
+  fill ('white')
+  textSize (20)
+  text("("+mouseX + ", "+ mouseY +")", mouseX, mouseY)
   noStroke()
   // punten en health
 
@@ -155,7 +167,7 @@ var tekenAlles = function() {
  */
 var checkGameOver = function() {
 
-  if (spelerX - vijandX < 500 &&
+  if (spelerX - vijandX < 100 &&
     spelerX - vijandX > 0 &&
     spelerY - vijandY < 240 &&
     spelerY - vijandY > 0) {
