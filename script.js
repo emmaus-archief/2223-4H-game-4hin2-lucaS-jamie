@@ -167,16 +167,16 @@ smooth()
  */
 var checkGameOver = function() {
 
-  if (spelerX - vijandX < 100 &&
-    spelerX - vijandX > 0 &&
-    spelerY - vijandY < 240 &&
-    spelerY - vijandY > 0) {
+  if (spelerX - vijandX < 80 &&
+    spelerX - vijandX > -50 &&
+    spelerY - vijandY < 45 &&
+    spelerY - vijandY > -120) {
     aantal = aantal + 1;
     console.log("aaauuu!!!!!!!!!");
     return true;
   }
-  // check of HP 0 is , of tijd op is, of ...
   return false;
+  // check of HP 0 is , of tijd op is, of ...
 };
 
 /* ********************************************* */
