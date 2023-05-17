@@ -43,9 +43,12 @@ var speler;
 var speler_reversed;
 var speler_walk;
 var speler_walk_reversed;
-var img2;
+var vijand1;
+var vijand1reversed;
 var img4;
 var img6;
+var retrybuttonhover;
+var retrybutton;
 /* ********************************************* */
 /* functies die je gebruikt in je game           */
 /* ********************************************* */
@@ -92,7 +95,7 @@ var beweegAlles = function() {
   if (spelerX < vijandX) {
     vijandX = vijandX - 1;
   }
-  if (spelerX > vijandY) {
+  if (spelerX > vijandX) {
     vijandX = vijandX + 1;
   }
   if (spelerY < vijandY) {
@@ -126,8 +129,17 @@ var tekenAlles = function() {
   image(img4, 0, 0, 1280, 720);
 
   // vijand
+  var vijandToUse = vijand1;
+
+if (spelerX < vijandX) {
+   vijandToUse = vijand1reversed;
+  }
+  if (spelerX > vijandX) {
+    vijandToUse = vijand1;
+  }
+  
 noSmooth()
-  image (img2, vijandX - 0.5 * vijandGrootteX, vijandY - 0.5 * vijandGrootteY, vijandGrootteX, vijandGrootteY)
+  image (vijandToUse, vijandX - 0.5 * vijandGrootteX, vijandY - 0.5 * vijandGrootteY, vijandGrootteX, vijandGrootteY)
 smooth()
   // kogel
 
@@ -213,9 +225,12 @@ function preload() {
   speler_reversed = loadImage('images/speler-reversed.gif')
   speler_walk = loadImage('images/speler-walk.gif')
   speler_walk_reversed = loadImage('images/speler-walk-reversed.gif')
-  img2 = loadImage('images/walker2.gif')
+  vijand1 = loadImage('images/walker2.gif')
+  vijand1reversed = loadImage('images/walker2reversed.gif')
   img4 = loadImage('images/achtergrond.jpg')
   img6 = loadImage('images/gameoversign.gif')
+  retrybuttonhover = loadImage('images/retryhover.png')
+  retrybutton = loadImage('images/retry.png')
 
 }
 /**
@@ -237,7 +252,19 @@ function draw() {
     console.log("game over");
     fill('black')
     rect(0, 0, 1280, 720);
-    image(img6, 300, 100, 675, 230)
+    image(img6, 300, 100, 675, 200)
+    image(retrybutton, 470, 360, 350, 200)
+    
+    if(mouseX > 530 && mouseX < 745 && mouseY > 415 && mouseY < 500){
+            image(retrybuttonhover, 465, 355, 360, 210);
+            if(mouseIsPressed === true){
+              spelerX = 100;
+              spelerY = 300;
+              vijandX = 600;
+              vijandY = 450;
+              spelStatus = SPELEN
+            }
+        }
   }
 
 
