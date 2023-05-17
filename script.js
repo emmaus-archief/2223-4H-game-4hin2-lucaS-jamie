@@ -88,8 +88,19 @@ var beweegAlles = function() {
   if (spelerY > 590) {
     spelerY = 590;
   }
-  // vijand
-
+  // vijand 
+  if (spelerX < vijandX) {
+    vijandX = vijandX - 1;
+  }
+  if (spelerX > vijandY) {
+    vijandX = vijandX + 1;
+  }
+  if (spelerY < vijandY) {
+    vijandY = vijandY - 1;
+  }
+  if (spelerY > vijandY) {
+    vijandY = vijandY + 1;
+  }
   // kogel
 };
 
