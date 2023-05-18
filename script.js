@@ -228,7 +228,7 @@ function preload() {
   vijand1 = loadImage('images/walker2.gif')
   vijand1reversed = loadImage('images/walker2reversed.gif')
   img4 = loadImage('images/achtergrond.jpg')
-  img6 = loadImage('images/gameoversign.gif')
+  img6 = loadImage('images/gameoversign.png')
   retrybuttonhover = loadImage('images/retryhover.png')
   retrybutton = loadImage('images/retry.png')
 
@@ -252,7 +252,7 @@ function draw() {
     console.log("game over");
     fill('black')
     rect(0, 0, 1280, 720);
-    image(img6, 300, 100, 675, 200)
+    image(img6, 300, 50, 675, 250)
     image(retrybutton, 470, 360, 350, 200)
     
     if(mouseX > 530 && mouseX < 745 && mouseY > 415 && mouseY < 500){
