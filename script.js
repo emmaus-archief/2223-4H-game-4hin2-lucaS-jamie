@@ -43,12 +43,16 @@ var speler;
 var speler_reversed;
 var speler_walk;
 var speler_walk_reversed;
+var speler_shoot;
+var speler_shoot_reversed;
 var vijand1;
 var vijand1reversed;
 var img4;
 var img6;
 var retrybuttonhover;
 var retrybutton;
+var kogel;
+
 /* ********************************************* */
 /* functies die je gebruikt in je game           */
 /* ********************************************* */
@@ -141,6 +145,7 @@ if (spelerX < vijandX) {
 noSmooth()
   image (vijandToUse, vijandX - 0.5 * vijandGrootteX, vijandY - 0.5 * vijandGrootteY, vijandGrootteX, vijandGrootteY)
 smooth()
+  
   // kogel
 
   // speler
@@ -225,12 +230,15 @@ function preload() {
   speler_reversed = loadImage('images/speler-reversed.gif')
   speler_walk = loadImage('images/speler-walk.gif')
   speler_walk_reversed = loadImage('images/speler-walk-reversed.gif')
+  speler_shoot = loadImage('images/speler-shoot-2.gif')
+  speler_shoot_reversed = loadImage('images/speler-shoot-2-reversed.gif')
   vijand1 = loadImage('images/walker2.gif')
   vijand1reversed = loadImage('images/walker2reversed.gif')
   img4 = loadImage('images/achtergrond.jpg')
   img6 = loadImage('images/gameoversign.png')
   retrybuttonhover = loadImage('images/retryhover.png')
   retrybutton = loadImage('images/retry.png')
+  kogel = loadImage('images/kogel.gif')
 
 }
 /**
