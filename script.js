@@ -16,6 +16,8 @@
 /* globale variabelen die je gebruikt in je game */
 /* ********************************************* */
 var aantal = 0;
+var startTime;
+var timerInterval; // interval ID for the timer
 
 const SPELEN = 1;
 const GAMEOVER = 2;
@@ -39,6 +41,15 @@ var vijandY = 450;
 var vijandGrootteX = 150;
 var vijandGrootteY = 230;
 
+var kogelSnelheid = 10;
+var kogelX = 0;
+var kogelY = 0;
+var kogelGrootteX = 20;
+var kogelGrootteY = 20;
+var kogelRichtingX = 0;
+var kogelRichtingY = 0;
+var isSchietend = false;
+
 var speler;
 var speler_reversed;
 var speler_walk;
@@ -52,6 +63,8 @@ var img6;
 var retrybuttonhover;
 var retrybutton;
 var kogel;
+
+var timerValue = 0; // verstreken tijd in seconden
 
 /* ********************************************* */
 /* functies die je gebruikt in je game           */
@@ -109,6 +122,16 @@ var beweegAlles = function() {
     vijandY = vijandY + 1;
   }
   // kogel
+    if (isSchietend) {
+    var stapX = kogelRichtingX / sqrt(kogelRichtingX * kogelRichtingX + kogelRichtingY * kogelRichtingY) * kogelSnelheid;
+    var stapY = kogelRichtingY / sqrt(kogelRichtingX * kogelRichtingX + kogelRichtingY * kogelRichtingY) * kogelSnelheid;
+
+    kogelX += stapX;
+    kogelY += stapY;
+  }
+
+
+  
 };
 
 /**
@@ -120,7 +143,9 @@ var verwerkBotsing = function() {
   // botsing speler tegen vijand
 
   // botsing kogel tegen vijand
-
+if (dist(kogelX, kogelY, vijandX, vijandY) < vijandGrootteX / 2) {
+  // Kogel raakt de vijand, voeg hier je acties toe
+}
   // update punten en health
 
 };
@@ -147,7 +172,9 @@ noSmooth()
 smooth()
   
   // kogel
-
+if (isSchietend) {
+  image(kogel, kogelX, kogelY, kogelGrootteX, kogelGrootteY);
+}
   // speler
   var imageToUse = speler;
   
@@ -186,6 +213,10 @@ smooth()
   text("("+mouseX + ", "+ mouseY +")", mouseX, mouseY)
   noStroke()
   // punten en health
+  textSize(24);
+  fill('white');
+  text("Time: " + timerValue + "s", 20, 50);
+  
 
 };
 
@@ -246,6 +277,23 @@ function preload() {
  * de code in deze functie wordt 50 keer per seconde
  * uitgevoerd door de p5 library, nadat de setup functie klaar is
  */
+function keyPressed() {
+  if (keyCode === 32) { // spatiebalk
+    isSchietend = true;
+    kogelRichtingX = mouseX - spelerX;
+    kogelRichtingY = mouseY - spelerY;
+  }
+}
+
+function keyReleased() {
+  if (keyCode === 32) { // spatiebalk
+    isSchietend = false;
+    // Reset de positie van de kogel
+    kogelX = spelerX;
+    kogelY = spelerY;
+  }
+}
+  
 function draw() {
   if (spelStatus === SPELEN) {
     beweegAlles();
@@ -255,13 +303,25 @@ function draw() {
       spelStatus = GAMEOVER;
     }
   }
+
   if (spelStatus === GAMEOVER) {
     // teken game-over scherm
+
+      if (timerInterval) {
+      clearInterval(timerInterval); // Stop the timer interval
+      timerInterval = null; // Reset the interval ID
+    }
+
     console.log("game over");
     fill('black')
     rect(0, 0, 1280, 720);
+    
     image(img6, 300, 50, 675, 250)
     image(retrybutton, 470, 360, 350, 200)
+    
+    fill('white');
+    textSize(40);
+    text("Time: " + timerValue + " seconds", 500, 590); // Adjust the position as needed
     
     if(mouseX > 530 && mouseX < 745 && mouseY > 415 && mouseY < 500){
             image(retrybuttonhover, 465, 355, 360, 210);
@@ -271,14 +331,25 @@ function draw() {
               vijandX = 600;
               vijandY = 450;
               spelStatus = SPELEN
+              timerValue = 0;
+              clearInterval(timerInterval);
+              timerInterval = setInterval(updateTimer, 1000);
             }
         }
   }
-
 
   if (spelStatus === UITLEG) {
     //teken uitleg scherm
     console.log("uitleg");
   }
 }
+
+function updateTimer() {
+  timerValue++;
+}
+
+// start de timer bij het begin van het spel
+
+var timerInterval = setInterval(updateTimer, 1000);
+
 
