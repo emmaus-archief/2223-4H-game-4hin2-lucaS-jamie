@@ -49,6 +49,7 @@ var kogelGrootteY = 20;
 var kogelRichtingX = 0;
 var kogelRichtingY = 0;
 var isSchietend = false;
+var isSpatieIngedrukt = false;
 
 var speler;
 var speler_reversed;
@@ -64,7 +65,9 @@ var retrybuttonhover;
 var retrybutton;
 var kogel;
 
-var timerValue = 0; // verstreken tijd in seconden
+var timerValue = 0;
+var score = 0;        // verstreken tijd in seconden
+var highscore = 0;
 
 /* ********************************************* */
 /* functies die je gebruikt in je game           */
@@ -122,12 +125,20 @@ var beweegAlles = function() {
     vijandY = vijandY + 1;
   }
   // kogel
-    if (isSchietend) {
+  if (isSchietend) {
     var stapX = kogelRichtingX / sqrt(kogelRichtingX * kogelRichtingX + kogelRichtingY * kogelRichtingY) * kogelSnelheid;
     var stapY = kogelRichtingY / sqrt(kogelRichtingX * kogelRichtingX + kogelRichtingY * kogelRichtingY) * kogelSnelheid;
 
     kogelX += stapX;
     kogelY += stapY;
+
+    // Controleer of de kogel de vijand raakt
+    if (dist(kogelX, kogelY, vijandX, vijandY) < vijandGrootteX / 2) {
+      // Kogel raakt de vijand, voeg hier je acties toe
+      score++;
+      console.log("Score: " + score);
+      isSchietend = false; // Zet isSchietend op false om te stoppen met vliegen
+    }
   }
 
 
@@ -143,11 +154,15 @@ var verwerkBotsing = function() {
   // botsing speler tegen vijand
 
   // botsing kogel tegen vijand
-if (dist(kogelX, kogelY, vijandX, vijandY) < vijandGrootteX / 2) {
-  // Kogel raakt de vijand, voeg hier je acties toe
-}
-  // update punten en health
 
+  // Kogel raakt de vijand, voeg hier je acties toe
+
+
+  // update punten en health
+if (score > highscore) {
+  highscore = score;
+}
+  
 };
 
 /**
@@ -170,6 +185,29 @@ if (spelerX < vijandX) {
 noSmooth()
   image (vijandToUse, vijandX - 0.5 * vijandGrootteX, vijandY - 0.5 * vijandGrootteY, vijandGrootteX, vijandGrootteY)
 smooth()
+
+    // HP-balk van vijand
+  var hpBalkBreedte = 100; // breedte van de HP-balk
+  var hpBalkHoogte = 10; // hoogte van de HP-balk
+  var hpPercentage = 100; // HP-percentage van de vijand (moet worden aangepast)
+
+  var hpBalkX = vijandX - hpBalkBreedte / 2; // x-positie van de HP-balk
+  var hpBalkY = vijandY - vijandGrootteY / 2 - hpBalkHoogte - 10; // y-positie van de HP-balk
+
+  // teken de HP-balk
+  noFill();
+  strokeWeight(1);
+  stroke('white');
+  rect(hpBalkX, hpBalkY, hpBalkBreedte, hpBalkHoogte);
+
+  // teken de gevulde HP-balk op basis van het HP-percentage
+  fill('red');
+  rect(hpBalkX, hpBalkY, hpBalkBreedte * (hpPercentage / 100), hpBalkHoogte);
+
+  // kogel
+  if (isSchietend) {
+    image(kogel, kogelX, kogelY, kogelGrootteX, kogelGrootteY);
+  }
   
   // kogel
 if (isSchietend) {
@@ -216,6 +254,10 @@ if (isSchietend) {
   textSize(24);
   fill('white');
   text("Time: " + timerValue + "s", 20, 50);
+
+  textSize(24);
+  fill('white');
+  text("Score: " + score, 20, 80);
   
 
 };
@@ -277,23 +319,23 @@ function preload() {
  * de code in deze functie wordt 50 keer per seconde
  * uitgevoerd door de p5 library, nadat de setup functie klaar is
  */
-function keyPressed() {
-  if (keyCode === 32) { // spatiebalk
+function mousePressed() {
+  if (!isSchietend) {
     isSchietend = true;
     kogelRichtingX = mouseX - spelerX;
     kogelRichtingY = mouseY - spelerY;
-  }
-}
-
-function keyReleased() {
-  if (keyCode === 32) { // spatiebalk
-    isSchietend = false;
-    // Reset de positie van de kogel
     kogelX = spelerX;
     kogelY = spelerY;
   }
 }
-  
+
+function mouseReleased() {
+  if (isSchietend) {
+    isSchietend = false;
+  }
+}
+
+
 function draw() {
   if (spelStatus === SPELEN) {
     beweegAlles();
@@ -321,7 +363,16 @@ function draw() {
     
     fill('white');
     textSize(40);
-    text("Time: " + timerValue + " seconds", 500, 590); // Adjust the position as needed
+    text("Time: " + timerValue + " seconds", 500, 590);// Adjust the position as needed
+
+    fill('white');
+    textSize(40);
+    text("Time: " + timerValue + " seconds", 500, 590); // Aanpassen indien nodig
+    text("Score: " + score, 500, 640); // Voeg deze regel toe
+
+    textSize(24);
+    fill('white');
+    text("Highscore: " + highscore, 20, 110);
     
     if(mouseX > 530 && mouseX < 745 && mouseY > 415 && mouseY < 500){
             image(retrybuttonhover, 465, 355, 360, 210);
@@ -332,6 +383,7 @@ function draw() {
               vijandY = 450;
               spelStatus = SPELEN
               timerValue = 0;
+              score = 0;
               clearInterval(timerInterval);
               timerInterval = setInterval(updateTimer, 1000);
             }
